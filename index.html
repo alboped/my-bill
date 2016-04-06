@@ -6,19 +6,51 @@
 		<script src="https://cdn.wilddog.com/js/client/current/wilddog.js"></script>
 		<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 		<script>
-			var ref = new Wilddog("https://1257.wilddogio.com");
-			$(function(){
+			var db = (function(){
+				var ref = new Wilddog("https://1257.wilddogio.com");
 				var node = ref.child('accountList');
-				$('#submit').click(function(){
-					node.push({
-						price: $('.price').val(),
-						type: $('.type').val()
+				return {
+					node: node,
+					ref: ref
+				}
+			})();
+
+			var module = (function(){
+				var saveAccount = function(price, type){
+					db.node.push({
+						price: price,
+						type: type
+					});
+				}
+
+				var queryAccountList = function(){
+					db.node.on('value', function(data){
+						console.dir(data.val());
+						$('.accountList').html('');
+						$.each(data.val(), function(key, value){
+							$('.accountList').append('<li>金额：' + value.price + ' 内容：' + value.type + '</li>')
+						})
 					})
-				})
+				}
+
+				return {
+					save: saveAccount,
+					query: queryAccountList
+				}
+			})();
+
+			$(function(){
+				$('#submit').click(function(){
+					module.save($('.price').val(), $('.type').val());
+					$('.price, .type').val('');
+					module.query();
+				});
+				module.query();
 			})
 		</script>
 	</head>
 	<body>
+		<ul class="accountList"></ul>
 		<form action="">
 			<div>
 				金额：<input type="text" name="price" class="price" />

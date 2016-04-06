@@ -2,10 +2,11 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>记账系统</title>
+		<title>天居园3201记账系统</title>
 		<script src="https://cdn.wilddog.com/js/client/current/wilddog.js"></script>
 		<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 		<script>
+			//数据对象
 			var db = (function(){
 				var ref = new Wilddog("https://1257.wilddogio.com");
 				var node = ref.child('accountList');
@@ -15,7 +16,9 @@
 				}
 			})();
 
+			//操作模块
 			var module = (function(){
+				//记账
 				var saveAccount = function(price, type){
 					db.node.push({
 						price: price,
@@ -23,6 +26,7 @@
 					});
 				}
 
+				//查询账单列表
 				var queryAccountList = function(){
 					db.node.on('value', function(data){
 						console.dir(data.val());
@@ -39,7 +43,9 @@
 				}
 			})();
 
+			//页面初始化
 			$(function(){
+				//记账按钮
 				$('#submit').click(function(){
 					module.save($('.price').val(), $('.type').val());
 					$('.price, .type').val('');

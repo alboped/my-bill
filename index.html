@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>记账系统</title>
+		<script src="https://cdn.wilddog.com/js/client/current/wilddog.js"></script>
+		<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<script>
+			var ref = new Wilddog("https://1257.wilddogio.com");
+			$(function(){
+				var node = ref.child('accountList');
+				$('#submit').click(function(){
+					node.push({
+						price: $('.price').val(),
+						type: $('.type').val()
+					})
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<form action="">
+			<div>
+				金额：<input type="text" name="price" class="price" />
+			</div>
+			<div>
+				项目：<input type="text" name="type" class="type" />
+			</div>
+			<div>
+				<input type="button" value="提交" id="submit" />
+			</div>
+		</form>
+	</body>
+</html>

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import TopBar from './components/common/topBar';
 
 // 加载样式
+require('normalize.css');
 require('./sass/index.scss');
 
 render(

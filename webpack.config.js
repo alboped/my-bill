@@ -15,20 +15,19 @@ module.exports = {
 	},
 	module: {
 		loaders: [{ 
-			test: /\.js$/, 
-			exclude: /node_modules/,
+			test: /\.js$/,
 			loader: 'babel'
 		}, {
 			test: /\.scss$/,
-			exclude: /node_modules/,
 			loader: 'style!css!autoprefixer!sass?outputStyle=compressed'
 		}, {
+			test: /\.css$/,
+			loader: 'style!css!autoprefixer'
+		}, {
 			test: /\.(png|jpg)$/,
-			exclude: /node_modules/,
 			loader: 'url?limit=8192'
 		}, {
 			test: /\.json$/,
-			exclude: /node_modules/,
 			loader: 'json'
 		}]
 	},

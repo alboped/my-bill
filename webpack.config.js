@@ -9,7 +9,7 @@ module.exports = {
 		'./src/index.js'
 	],
 	output: {
-		publicPath: 'http://account.server.com:8080/dist',
+		publicPath: 'http://account.server.com:8080',
 		path: 'dist',
 		filename: 'bundle.js'
 	},
@@ -34,7 +34,7 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin(),
+		new webpack.NoErrorsPlugin()/*,
 		new htmlWebpackPlugin({
 			template: './src/index.html',
 			filename: './index.html',
@@ -43,6 +43,6 @@ module.exports = {
 				removeComments: true,
 				collapseWhitespace: true
 			}
-		})
+		})*/
 	]
 }

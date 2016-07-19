@@ -2,15 +2,16 @@ var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')(),
 	config = {
 		uri: 'http://account.server.com',
-		port: 8080,
-		dist: './dist'
+		port: 80,
+		dist: './dist/**/*'
 	}
 
 // 启动服务
 gulp.task('open', function(){
 	gulp.src('./index.html')
 		.pipe(plugins.open({
-			uri: config.uri + ':' + config.port
+			uri: config.uri + ':' + config.port,
+			app: 'chrome'
 		}));
 });
 
@@ -28,7 +29,6 @@ gulp.task('reload', function(){
 	gulp.src(config.dist)
 		.pipe(plugins.connect.reload());
 });
-
 
 // 监听文件
 gulp.task('watch', function(){

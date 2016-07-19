@@ -1,0 +1,107 @@
+/* 页面宽度 */
+$content-width: 1080px;
+
+/* 主题颜色 */
+$theme-color: #66CCCC;
+
+/* 导航高度 */
+$top-height: 60px;
+
+/* 订单标签背景色 */
+$babel-bg: #45ca45;
+
+/* 首页样式 */
+html, body {
+	width: 100%;
+	height: 100%;
+	background: #f0f0f0;
+	font-size: 12px;
+	* {
+		box-sizing: border-box;
+		font-family: '微软雅黑', 'Microsoft YaHei';
+	}
+}
+
+/* 列表样式 */
+ul {
+	list-style: none;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* a标签样式 */
+a, a:hover {
+	color: #000;
+	text-decoration: none;
+}
+
+/* a标签鼠标经过显示下划线 */
+a.link-underline:hover {
+	text-decoration: underline;
+}
+
+/* 页面内容容器 */
+.container {
+	width: $content-width;
+	margin: 0 auto;
+}
+
+/* 左浮动 */
+.left {
+	float: left;
+}
+
+/* 右浮动 */
+.right {
+	float: right;
+}
+
+/* 居中 */
+.center {
+	margin: 0 auto;
+}
+
+@mixin wh($width, $height){
+	width: $width;
+	height: $height;
+}
+
+/* 输入框 */
+.ma-input {
+	width: 200px;
+	height: 40px;
+	padding: 0 10px;
+	font-size: 14px;
+	border-radius: 3px;
+	border: 1px solid #999;
+	outline: none;
+	&:focus {
+		border: 1px solid #278df7;
+	}
+}
+
+/* 按钮 */
+.ma-button {
+	height: 40px;
+	padding: 0 30px;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	font-size: 14px;
+	&.ma-success {
+		color: #fff;
+		background: #66CC33;
+	}
+}
+
+/* 表单项 */
+.form-item {
+	width: 100%;
+	margin: 16px auto 16px;
+}
+
+@import 'login'; /* 登录窗口 */
+@import 'common'; /* 公用样式 */
+@import 'home'; /* 首页 */
+@import 'detail'; /* 明细页面 */
+// @import 'clearing'; /* 结算页面

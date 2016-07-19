@@ -1,0 +1,41 @@
+{
+	"consumptionType": ["食品", "蔬菜", "水电费", "其他"],
+	"labelList": [
+		{ "id": "0", "name": "蔬菜", "pid": "0" },
+		{ "id": "1", "name": "西红柿", "pid": "001" },
+		{ "id": "2", "name": "蘑菇", "pid": "001" },
+		{ "id": "3", "name": "香菇", "pid": "001" },
+		{ "id": "4", "name": "茄子", "pid": "001" },
+		{ "id": "5", "name": "土豆", "pid": "001" },
+		{ "id": "6", "name": "黄瓜", "pid": "001" },
+		{ "id": "7", "name": "西葫芦", "pid": "001" },
+		{ "id": "8", "name": "豆腐", "pid": "001" },
+		{ "id": "9", "name": "菠菜", "pid": "001" },
+		{ "id": "10", "name": "大白菜", "pid": "001" },
+		{ "id": "11", "name": "鸡蛋", "pid": "001" },
+		{ "id": "12", "name": "蒜苔", "pid": "001" },
+		{ "id": "13", "name": "大蒜", "pid": "001" },
+		{ "id": "14", "name": "青椒", "pid": "001" },
+		{ "id": "15", "name": "肉类", "pid": "0" },
+		{ "id": "16", "name": "青椒", "pid": "001" },
+		{ "id": "17", "name": "青椒", "pid": "001" }
+	],
+	"userInfo": [
+		{
+			"userName": "史朝军",
+			"photo": "/img/photo.jpeg"
+		}, {
+			"userName": "王二征",
+			"photo": "/img/photo.jpeg"
+		}, {
+			"userName": "张仪",
+			"photo": "/img/photo.jpeg"
+		}, {
+			"userName": "张文",
+			"photo": "/img/photo.jpeg"
+		}, {
+			"userName": "丁万水",
+			"photo": "/img/photo.jpeg"
+		} 
+	]
+}

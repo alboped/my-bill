@@ -79,6 +79,9 @@ a.link-underline:hover {
 	&:focus {
 		border: 1px solid #278df7;
 	}
+	&.ma-error {
+		border-color: #eb3232;
+	}
 }
 
 /* 按钮 */
@@ -89,8 +92,10 @@ a.link-underline:hover {
 	border: 1px solid #ddd;
 	font-size: 14px;
 	&.ma-success {
+		$success-color: #66CC33;
 		color: #fff;
-		background: #66CC33;
+		background: $success-color;
+		border-color: $success-color;
 	}
 }
 
@@ -99,6 +104,8 @@ a.link-underline:hover {
 	width: 100%;
 	margin: 16px auto 16px;
 }
+
+@import 'plug'; /* 插件样式 */
 
 @import 'login'; /* 登录窗口 */
 @import 'common'; /* 公用样式 */

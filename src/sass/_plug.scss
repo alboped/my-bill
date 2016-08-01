@@ -1,0 +1,138 @@
+/* 插件样式 */
+@charset "utf-8";
+
+/**
+ * tooltip 文字提示插件;
+ */
+
+/* 隐藏上边框 */
+%arrow-b-tc {
+	border-top-color: transparent !important;
+}
+
+/* 隐藏左边框 */
+%arrow-b-lc {
+	border-left-color: transparent !important;
+}
+
+/* 隐藏下边框 */
+%arrow-b-bc {
+	border-bottom-color: transparent !important;
+}
+
+/* 隐藏右边框 */
+%arrow-b-rc {
+	border-right-color: transparent !important;
+}
+
+/* 隐藏下边框 */
+%arrow-b-t {
+	@extend %arrow-b-lc;
+	@extend %arrow-b-bc;
+	@extend %arrow-b-rc;
+}
+
+/* 右箭头 */
+%arrow-b-l {
+	@extend %arrow-b-tc;
+	@extend %arrow-b-bc;
+	@extend %arrow-b-rc;
+}
+
+/* 左箭头 */
+%arrow-b-r {
+	@extend %arrow-b-tc;
+	@extend %arrow-b-lc;
+	@extend %arrow-b-bc;
+}
+
+/* 上箭头 */
+%arrow-b-b {
+	@extend %arrow-b-tc;
+	@extend %arrow-b-lc;
+	@extend %arrow-b-rc;
+}
+
+/* 文字提示框 */
+.tooltip-dialog {
+	position: absolute;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 15px;
+	background: #eee;
+	border-radius: 3px;
+	color: #fff;
+	/* 箭头 */
+	.tooltip-arrow {
+		position: absolute;
+		width: 0px;
+		height: 0px;
+		border-width: 6px;
+		border-style: solid;
+		border-color: #eee;
+		&.top {
+			left: 50%;
+			bottom: -12px;
+			margin-left: -6px;
+			@extend %arrow-b-t;
+		}
+		&.left {
+			top: 50%;
+			right: -12px;
+			margin-top: -6px;
+			@extend %arrow-b-l;
+		}
+		&.right {
+			top: 50%;
+			left: -12px;
+			margin-top: -6px;
+			@extend %arrow-b-r;
+		}
+		&.bottom {
+			top: -12px;
+			left: 50%;
+			margin-left: -6px;
+			@extend %arrow-b-b;
+		}
+		&.top-left {
+			bottom: -12px;
+			left: 16px;
+			@extend %arrow-b-t;
+		}
+		&.top-right {
+			bottom: -12px;
+			right: 16px;
+			@extend %arrow-b-t;
+		}
+		&.left-top {
+			top: 10px;
+			right: -12px;
+			@extend %arrow-b-l;
+		}
+		&.left-bottom {
+			bottom: 10px;
+			right: -12px;
+			@extend %arrow-b-l;
+		}
+		&.right-top {
+			top: 10px;
+			left: -12px;
+			@extend %arrow-b-r;
+		}
+		&.right-bottom {
+			bottom: 10px;
+			left: -12px;
+			@extend %arrow-b-r;
+		}
+		&.bottom-left {
+			top: -12px;
+			left: 16px;
+			@extend %arrow-b-b;
+		}
+		&.bottom-right {
+			top: -12px;
+			right: 16px;
+			@extend %arrow-b-b;
+		}
+	}
+}

@@ -2,7 +2,7 @@
  * 首页
  */
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
 
@@ -20,7 +20,7 @@ const userInfo = commonData.userInfo;
 /**
  * 首页头部
  */
-class TopPart extends React.Component {
+class TopPart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,16 +29,17 @@ class TopPart extends React.Component {
 	}
 
 	componentDidMount() {
-		home_api.getTotalAmount({
-			success: (data) => {
-				this.setState({
-					totalAmount: data
-				});
-			},
-			error: () => {
-				console.log("获取最近订单失败！");
-			}
-		});
+		// home_api.getTotalAmount({
+		// 	success: (data) => {
+		// 		this.setState({
+		// 			totalAmount: data
+		// 		});
+		// 	},
+		// 	error: () => {
+		// 		console.log("获取最近订单失败！");
+		// 	}
+		// });
+		this.props.getTotalAmount();
 	}
 
 	render() {
@@ -55,7 +56,7 @@ class TopPart extends React.Component {
 /**
  * 首页最近账单列表
  */
-class LatelyDetail extends React.Component {
+class LatelyDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -65,16 +66,17 @@ class LatelyDetail extends React.Component {
 
 	componentDidMount() {
 		// 初始化最近账单
-		home_api.getLatelyList({
-			success: (data) => {
-				this.setState({
-					latelyList: data
-				});
-			},
-			error: () => {
-				console.log("获取最近订单失败！");
-			}
-		});
+		// home_api.getLatelyList({
+		// 	success: (data) => {
+		// 		this.setState({
+		// 			latelyList: data
+		// 		});
+		// 	},
+		// 	error: () => {
+		// 		console.log("获取最近订单失败！");
+		// 	}
+		// });
+		this.props.getLatelyList();
 	}
 
 	// 拼接账单列表
@@ -110,16 +112,16 @@ class LatelyDetail extends React.Component {
 /**
  * 首页组件
  */
-export default class HomePage extends React.Component {
+export default class HomePage extends Component {
 	render() {
 		return (
 			<div>
-				<TopPart/>
+				<TopPart getTotalAmount={ this.props.getTotalAmount } />
 				<p className="list-title container">
 					<span>最近账单</span>
 					<Link className="list-more" to="/detail">更多账单 >></Link>
 				</p>
-				<LatelyDetail/>
+				<LatelyDetail getLatelyList={ this.props.getLatelyList }/>
 				<div className="home-copyright">
 					<p>本站仅供天居园3201内部使用</p>
 					<p>禁止他人使用</p>
@@ -127,4 +129,9 @@ export default class HomePage extends React.Component {
 			</div>
 		);
 	}
+}
+
+LatelyDetail.propTypes = {
+	getTotalAmount: PropTypes.func.isRequired, 
+	getLatelyList: PropTypes.func.isRequired
 }

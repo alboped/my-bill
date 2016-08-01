@@ -2,7 +2,7 @@
  * 订单标签
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 
 // 业务模块
 import commonData from '../api/common'; // 公共参数
@@ -10,7 +10,7 @@ import commonData from '../api/common'; // 公共参数
 // 标签数组
 const labelList = commonData.labelList;
 
-export default class OrderLabel extends React.Component {
+export default class OrderLabel extends Component {
 	constructor(props) {
 		super(props);
 	}

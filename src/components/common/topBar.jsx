@@ -2,16 +2,16 @@
  * 头部导航
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import LoginAndReg from './loginAndreg';
 import UserHandle from './userHandle';
 
-export default class TopBar extends React.Component {
+export default class TopBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLogin: false
+			isLogin: true
 		}
 	}
 
@@ -51,7 +51,7 @@ export default class TopBar extends React.Component {
 /** 
  * 登录、注册操作栏
  */
-class LoginBar extends React.Component {
+class LoginBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -101,7 +101,7 @@ class LoginBar extends React.Component {
 /**
  * 用户信息栏
  */
-class UserBar extends React.Component {
+class UserBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

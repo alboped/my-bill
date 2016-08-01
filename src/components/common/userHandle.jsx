@@ -2,9 +2,9 @@
  * 用户操作菜单
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class UserHandle extends React.Component {
+export default class UserHandle extends Component {
 	render() {
 		return (
 			<div className="user-handle">

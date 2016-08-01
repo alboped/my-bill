@@ -2,14 +2,17 @@
  * 登录\注册页面
  */
 
-import React from 'react';
-import Tooltip from './tooltip';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Tooltip from '../../plug/tooltip';
 import { classSet } from '../../plug/common';
+import * as Mixin from '../../plug/reactMixin';
+import $ from 'jquery';
 
 // 业务组件
 import * as home_api from '../api/home'; // 首页接口
 
-export default class LoginAndReg extends React.Component {
+export default class LoginAndReg extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -71,39 +74,118 @@ export default class LoginAndReg extends React.Component {
 /**
  * 登录窗口
  */
-class LoginForm extends React.Component {
+class LoginForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			autoLogin: true
-		}
+			autoLogin: true,   // 选中自动登录
+			loginBtnDisabled: false,   // 禁用登录按钮
+			email_tooltip_content: '',   // email 提示信息
+			email_tooltip_toggle: false,   // email 提示信息显示状态
+			pwd_tooltip_content: '',   // 密码提示信息
+			pwd_tooltip_toggle: false   // 密码提示信息显示状态
+		};
+		this.updateState = Mixin.updateState.bind(this);
 	}
 
 	/*
 	 * 切换自动登录
 	 */
 	autoLoginToggle() {
-		this.setState({
+		this.updateState({
 			autoLogin: !this.state.autoLogin
 		});
+	}
+
+	/* 登录 */
+	userLogin() {
+		let email = this.refs.email;
+		let password = this.refs.password;
+
+		/* 禁用登录按钮 */
+		this.updateState({
+			loginBtnDisabled: true
+		});
+
+		if(email.value == ''){
+			let _email = ReactDOM.findDOMNode(email);
+			$(_email).addClass('ma-error').focus();
+			this.updateState({
+				email_tooltip_content: '请输入邮箱！',
+				email_tooltip_toggle: true
+			});
+		} else if(password.value == ''){
+			let _pwd = ReactDOM.findDOMNode(password);
+			$(_pwd).addClass('ma-error').focus();
+			this.updateState({
+				pwd_tooltip_content: '请输入密码！',
+				pwd_tooltip_toggle: true
+			});
+		}
+
+		/* 启用登录按钮 */
+		this.updateState({
+			loginBtnDisabled: false
+		});
+		return false;
+	}
+
+	/* 隐藏错误提示 */
+	hideTooltip(event, toggle_state) {
+		/* 取消错误样式 */
+		$(event.target).removeClass('ma-error');
+
+		/* 隐藏错误弹窗 */
+		let state = {};
+		state[toggle_state] = false;
+		this.updateState(state);
 	}
 
 	render() {
 		// 设置自动登录按钮类名
 		let checkClass = classSet({
-			'fa': true,
-			'check-toggle': true,
 			'fa-check-square-o': this.state.autoLogin,
 			'fa-square-o': !this.state.autoLogin
 		});
+
 		return (
-			<form className="login-box">
-				<input type="text" className="ma-input form-item input-item" placeholder="请输入帐号！"/>
-				<input type="text" className="ma-input form-item input-item" placeholder="请输入密码！"/>
-				<button type="submit" className="ma-button ma-success form-item login-btn">登 录</button>
+			<form className="login-box" onSubmit={ this.userLogin.bind(this) }>
+				<Tooltip content={ this.state.email_tooltip_content } 
+					visible={ this.state.email_tooltip_toggle } 
+					position="bottom-right" 
+					className="err-tooltip" 
+					bgColor="#eb3232">
+					<input type="text" 
+						ref="email" 
+						className="ma-input form-item input-item" 
+						onClick={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
+						onChange={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
+						placeholder="请输入帐号！"
+					/>
+				</Tooltip>
+				<Tooltip content={ this.state.pwd_tooltip_content } 
+					visible={ this.state.pwd_tooltip_toggle } 
+					position="bottom-right" 
+					className="err-tooltip" 
+					bgColor="#eb3232">
+					<input type="text" 
+						ref="password" 
+						onClick={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
+						onChange={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
+						className="ma-input form-item input-item" 
+						placeholder="请输入密码！"
+					/>
+				</Tooltip>
+				<button type="submit" 
+					className="ma-button ma-success form-item login-btn" 
+					disabled={ this.state.loginBtnDisabled }>
+					登 录
+				</button>
 				<div className="login-pwd-bar">
 					<div className="left login-auto">
-						<a href="javascript:;" className={ checkClass } onClick={ this.autoLoginToggle.bind(this) }></a>
+						<a href="javascript:;" className={ 'fa check-toggle ' + checkClass } 
+							onClick={ this.autoLoginToggle.bind(this) }>
+						</a>
 						自动登录
 					</div>
 					<a href="javascript:;" className="right find-pwd link-underline">忘记密码？</a>
@@ -117,18 +199,35 @@ class LoginForm extends React.Component {
 /**
  * 注册窗口
  */
-class RegForm extends React.Component {
+class RegForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			regBtnDisabled: false
-		}
+			regBtnDisabled: false,   // 禁用注册按钮
+			email_tooltip_content: '',   // email 提示信息
+			email_tooltip_toggle: true,   // email 提示信息显示状态
+			pwd_tooltip_content: '',   // 密码提示信息
+			pwd_tooltip_toggle: true   // 密码提示信息显示状态
+		};
+		this.updateState = Mixin.updateState.bind(this);
 	}
+
+	/*
+	 * 根据注册 error code 获取错误信息。
+	 */
+	getRegState(code) {
+		return {
+			'invalid_email': '无效的邮箱地址！',
+			'email_taken': '该邮箱已被注册！'
+		}[code];
+	}
+
 	/*
 	 * 用户注册
 	 */
 	userReg() {
-		this.setState({
+		// 禁用注册按钮
+		this.updateState({
 			regBtnDisabled: true
 		});
 		home_api.userReg({
@@ -139,12 +238,12 @@ class RegForm extends React.Component {
 				alert('注册成功！');
 			},
 			error: (err) => {
-				this.setState({
-					regBtnDisabled: false
+				// 启用注册按钮
+				this.updateState({
+					regBtnDisabled: false,
+					email_tooltip_content: this.getRegState(err.code),
+					email_tooltip_toggle: true
 				});
-				if(err.code == "email_taken"){
-					alert('邮箱已被注册！');
-				}
 			}
 		});
 		return false;
@@ -153,12 +252,8 @@ class RegForm extends React.Component {
 	render() {
 		return (
 			<form className="reg-box" onSubmit={ this.userReg.bind(this) }>
-				<Tooltip position="bottom-right">
-					<input type="text" ref="email" className="ma-input form-item input-item" placeholder="请输入帐号！"/>
-				</Tooltip>
-				<Tooltip position="bottom-right">
-					<input type="text" ref="pwd" className="ma-input form-item input-item" placeholder="请输入密码！"/>
-				</Tooltip>
+				<input type="text" ref="email" className="ma-input form-item input-item" placeholder="请输入帐号！"/>
+				<input type="text" ref="pwd" className="ma-input form-item input-item" placeholder="请输入密码！"/>
 				<button type="submit" 
 					className="ma-button ma-success form-item login-btn" 
 					disabled={ this.state.regBtnDisabled }>
@@ -173,7 +268,7 @@ class RegForm extends React.Component {
 /**
  * 第三方登录
  */
-class OtherLogin extends React.Component {
+class OtherLogin extends Component {
 	render() {
 		return (
 			<div className="other-bar">

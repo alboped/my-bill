@@ -12,7 +12,8 @@ import TopBar from '../common/topBar';
  */
 export default class ClearingPage extends React.Component {
 	render() {
-		return <div>
-		</div>;
+		return (
+			<div></div>
+		);
 	}
 }

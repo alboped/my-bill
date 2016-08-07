@@ -1,6 +1,7 @@
 var webpack = require('webpack'),
 	htmlWebpackPlugin = require('html-webpack-plugin'),
-	ExtractTextPlugin = require('extract-text-webpack-plugin');
+	ExtractTextPlugin = require('extract-text-webpack-plugin'),
+	path = require('path');
 
 var config = {
 	url: 'http://account.server.com',
@@ -8,16 +9,19 @@ var config = {
 }
 
 module.exports = {
-	devtool: 'source-map',
-	watch: true,
+	// devtool: 'source-map',
+	devtool: 'cheap-module-eval-source-map',
+	// watch: true,
 	entry: [
 		// 'webpack-dev-server/client?' + config.url + ':' + config.port,//资源服务器地址
 		// 'webpack/hot/only-dev-server',
+		'webpack-hot-middleware/client?reload=true',
 		'./src/index.jsx'
 	],
 	output: {
-		publicPath: config.url + ':' + config.port,
-		path: 'dist',
+		// publicPath: config.url + ':' + config.port,
+		publicPath: '/static/',
+		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js'
 	},
 	module: {
@@ -50,8 +54,9 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.optimize.UglifyJsPlugin()
 		// new ExtractTextPlugin('style.css'),
-		// new webpack.optimize.UglifyJsPlugin()
-		// new webpack.HotModuleReplacementPlugin()
 	]
 }

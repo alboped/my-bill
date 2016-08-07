@@ -8,7 +8,7 @@ import $ from 'jquery';
 
 // 业务组件
 import OrderLabel from './common/orderLabel'; // 账单标签
-import * as home_api from './api/home'; // 首页接口
+// import * as home_api from './api/home'; // 首页接口
 import commonData from './api/common'; // 公共参数
 
 // 订单类型
@@ -131,7 +131,7 @@ export default class HomePage extends Component {
 	}
 }
 
-LatelyDetail.propTypes = {
-	getTotalAmount: PropTypes.func.isRequired, 
+HomePage.propTypes = {
+	getTotalAmount: PropTypes.func.isRequired,
 	getLatelyList: PropTypes.func.isRequired
 }

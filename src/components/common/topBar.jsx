@@ -11,7 +11,7 @@ export default class TopBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLogin: true
+			isLogin: false
 		}
 	}
 

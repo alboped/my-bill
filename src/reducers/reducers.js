@@ -1,36 +1,35 @@
-import { combinReducers } from 'redux';
+import { combineReducers } from 'redux';
 import * as Actions from '../actions/actions';
-const { LOGIN_STATE } from Action.LoginState;
+import * as ActionTypes from '../actions/actionTypes';
+// const { LOGIN_STATE } from Action.LoginState;
 
-let loginState = (state = LOGIN_STATE, action) => {
-	switch(action.type) {
+// let loginState = (state = LOGIN_STATE, action) => {
+// 	switch(action.type) {
 		
-	}
-}
+// 	}
+// }
 
-let todos = (state = [], action) => {
-	switch(action.type) {
-		case Actions.GET_TOTAL_AMOUNT:
-			return [
-				...state,
-				{
-					completed: false
-				}
-			];
-		case Actions.GET_LATELY_LIST:
-			return [
-				...state,
-				{
-					completed: false
-				}
-			];
+const total_amount = (state = 0, action) => {
+	switch (action.type){
+		case ActionTypes.GET_TOTAL_AMOUNT:
+			return Actions.totelAmount;
 		default:
 			return state;
 	}
 }
 
-const todoApp = combinReducers({
-	todos
+const lately_list = (state = [], action) => {
+	switch (action.type){
+		case ActionTypes.GET_LATELY_LIST:
+			return Actions.latelyList;
+		default:
+			return state;
+	}
+}
+
+const rootReducer = combineReducers({
+	total_amount,
+	lately_list
 });
 
-export default todoApp;
+export default rootReducer;

@@ -10,7 +10,7 @@ import * as Mixin from '../../plug/reactMixin';
 import $ from 'jquery';
 
 // 业务组件
-import * as home_api from '../api/home'; // 首页接口
+// import * as home_api from '../api/home'; // 首页接口
 
 export default class LoginAndReg extends Component {
 	constructor(props){
@@ -230,22 +230,22 @@ class RegForm extends Component {
 		this.updateState({
 			regBtnDisabled: true
 		});
-		home_api.userReg({
-			email: this.refs.email.value,
-			password: this.refs.pwd.value,
-			success: (data) => {
-				console.dir(data);
-				alert('注册成功！');
-			},
-			error: (err) => {
-				// 启用注册按钮
-				this.updateState({
-					regBtnDisabled: false,
-					email_tooltip_content: this.getRegState(err.code),
-					email_tooltip_toggle: true
-				});
-			}
-		});
+		// home_api.userReg({
+		// 	email: this.refs.email.value,
+		// 	password: this.refs.pwd.value,
+		// 	success: (data) => {
+		// 		console.dir(data);
+		// 		alert('注册成功！');
+		// 	},
+		// 	error: (err) => {
+		// 		// 启用注册按钮
+		// 		this.updateState({
+		// 			regBtnDisabled: false,
+		// 			email_tooltip_content: this.getRegState(err.code),
+		// 			email_tooltip_toggle: true
+		// 		});
+		// 	}
+		// });
 		return false;
 	}
 

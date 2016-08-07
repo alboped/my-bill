@@ -131,7 +131,7 @@ export default class Tooltip extends React.Component {
 	}
 }
 
-/* props 校验 */
+/* 提示框props 校验 */
 Tooltip.propTypes = {
 	content: React.PropTypes.string.isRequired
 }

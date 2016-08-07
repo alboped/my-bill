@@ -1,8 +1,9 @@
-/*
- * action类型 
- */
-export const GET_TOTAL_AMOUNT = "GET_TOTAL_AMOUNT"; /* 获取总金额 */
-export const GET_LATELY_LIST = "GET_LATELY_LIST"; /* 获取最近订单列表 */
+import * as actionTypes from './actionTypes'; /* actionType */
+
+// import Wilddog from 'wilddog';
+// let Wilddog = require("wilddog");
+
+let ref = new Wilddog('https://1257.wilddogio.com/');
 
 /*
  * 登录状态
@@ -14,8 +15,43 @@ export const LoginState = {
 }
 
 /*
- * action创建函数
+ * 查询未结算总金额
  */
-export const get_total_amount = () => ({ type: GET_TOTAL_AMOUNT });
+export const get_total_amount = () => {
+	return dispatch => {
+		return ref.child('amount').on('value', (data, err) => {
+			if(err == null){
+				dispatch(returnAmount(data.val()));
+			} else {
+				console.log('查询金额失败！');
+			}
+		});
+	}
+}
 
-export const get_lately_list = () => ({ type: GET_LATELY_LIST });
+/* 接收未结算总金额 */
+const returnAmount = (totelAmount) => ({
+	type: actionTypes.GET_TOTAL_AMOUNT,
+	totelAmount: totelAmount
+});
+
+/*
+ * 查询最近账单
+ */
+export const get_lately_list = () => {
+	return dispatch => {
+		return ref.child('bill').on('value', (data, err) => {
+			if(err == null){
+				dispatch(returnLatelyList(data.val()));
+			} else {
+				console.log('查询账单失败！');
+			}
+		});
+	}
+}
+
+/* 接收未结算总金额 */
+const returnLatelyList = (latelyList) => ({
+	type: actionTypes.GET_LATELY_LIST,
+	latelyList: latelyList
+});

@@ -2,9 +2,9 @@ var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')(),
 	config = {
 		uri: 'http://account.server.com',
-		port: 80,
+		port: 8080,
 		dist: './dist/**/*'
-	}
+	};
 
 // 启动服务
 gulp.task('open', function(){

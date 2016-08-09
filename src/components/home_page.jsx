@@ -131,7 +131,7 @@ export default class HomePage extends Component {
 	}
 }
 
-HomePage.propTypes = {
-	getTotalAmount: PropTypes.func.isRequired,
-	getLatelyList: PropTypes.func.isRequired
-}
+// HomePage.propTypes = {
+// 	getTotalAmount: PropTypes.func.isRequired,
+// 	getLatelyList: PropTypes.func.isRequired
+// }

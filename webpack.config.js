@@ -56,7 +56,7 @@ module.exports = {
 		new webpack.NoErrorsPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.optimize.UglifyJsPlugin()
+		// new webpack.optimize.UglifyJsPlugin()
 		// new ExtractTextPlugin('style.css'),
 	]
 }

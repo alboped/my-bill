@@ -8,31 +8,46 @@ let ref = new Wilddog('https://1257.wilddogio.com/');
 /*
  * 登录状态
  */
-export const LoginState = {
-	LOGIN_STATE: 'LOGIN_STATE', /* 是否已登录 */
-	LOGIN_VISIBLE: 'LOGIN_VISIBLE', /* 是否显示登录窗口 */
-	LOGIN_TOGGLE: 'LOGIN_TOGGLE'  /* 是否切换到登录窗口 */
-}
+// export const LoginState = {
+// 	LOGIN_STATE: 'LOGIN_STATE', /* 是否已登录 */
+// 	LOGIN_VISIBLE: 'LOGIN_VISIBLE', /* 是否显示登录窗口 */
+// 	LOGIN_TOGGLE: 'LOGIN_TOGGLE'  /* 是否切换到登录窗口 */
+// }
+
+const requestAmount = () => ({
+	type: actionTypes.GET_TOTAL_AMOUNT_REQUEST,
+	totelAmount: 0
+});
+
+const receiveAmount = (totelAmount) => ({
+	type: actionTypes.GET_TOTAL_AMOUNT_SUCCESS,
+	totelAmount
+});
 
 /*
  * 查询未结算总金额
  */
 export const get_total_amount = () => {
 	return dispatch => {
+		dispatch(requestAmount());
 		return ref.child('amount').on('value', (data, err) => {
 			if(err == null){
-				dispatch(returnAmount(data.val()));
+				dispatch(receiveAmount(data.val()));
 			} else {
-				console.log('查询金额失败！');
+				dispatch(receiveAmount(0));
 			}
 		});
 	}
 }
 
-/* 接收未结算总金额 */
-const returnAmount = (totelAmount) => ({
-	type: actionTypes.GET_TOTAL_AMOUNT,
-	totelAmount: totelAmount
+const requestLatelyList = () => ({
+	type: actionTypes.GET_LATELY_LIST_REQUEST,
+	latelyList: []
+});
+
+const receiveLatelyList = (latelyList) => ({
+	type: actionTypes.GET_LATELY_LIST_SUCCESS,
+	latelyList
 });
 
 /*
@@ -40,18 +55,13 @@ const returnAmount = (totelAmount) => ({
  */
 export const get_lately_list = () => {
 	return dispatch => {
+		dispatch(requestLatelyList());
 		return ref.child('bill').on('value', (data, err) => {
 			if(err == null){
-				dispatch(returnLatelyList(data.val()));
+				dispatch(receiveLatelyList(data.val()));
 			} else {
-				console.log('查询账单失败！');
+				dispatch(receiveLatelyList([]));
 			}
 		});
 	}
 }
-
-/* 接收未结算总金额 */
-const returnLatelyList = (latelyList) => ({
-	type: actionTypes.GET_LATELY_LIST,
-	latelyList: latelyList
-});

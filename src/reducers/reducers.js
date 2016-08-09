@@ -9,27 +9,31 @@ import * as ActionTypes from '../actions/actionTypes';
 // 	}
 // }
 
-const total_amount = (state = 0, action) => {
+const totalAmount = (state = 0, action) => {
 	switch (action.type){
 		case ActionTypes.GET_TOTAL_AMOUNT:
-			return Actions.totelAmount;
+			return Object.assign({}, satte, {
+				totalAmount: Actions.totelAmount	
+			});
 		default:
 			return state;
 	}
 }
 
-const lately_list = (state = [], action) => {
+const latelyList = (state = [], action) => {
 	switch (action.type){
 		case ActionTypes.GET_LATELY_LIST:
-			return Actions.latelyList;
+			return Object.assign({}, satte, {
+				latelyList: Actions.latelyList
+			});
 		default:
 			return state;
 	}
 }
 
 const rootReducer = combineReducers({
-	total_amount,
-	lately_list
+	totalAmount,
+	latelyList
 });
 
 export default rootReducer;

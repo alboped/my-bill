@@ -53,6 +53,7 @@
     "react-router": "^2.5.2",
     "redux": "^3.5.2",
     "redux-devtools": "^3.3.1",
+    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "sass-loader": "^3.2.3",
     "style-loader": "^0.13.1",

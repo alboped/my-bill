@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers/reducers';
 import App from './containers/App';
+import thunkMiddleware from 'redux-thunk'; 
+import createLogger from 'redux-logger';
 
 /* 业务组件 */
 import HomePage from './components/home_page'; // 首页
@@ -20,7 +22,16 @@ require('./sass/main.scss');
 /* font-awesome 图标 */
 require('font-awesome-webpack');
 
-let store = createStore(rootReducer);
+const loggerMiddleware = createLogger();
+
+/* 创建store */
+let store = createStore(
+	rootReducer,
+	applyMiddleware(
+		thunkMiddleware,
+		loggerMiddleware
+	)
+);
 
 render(
 	<Provider store={ store }>

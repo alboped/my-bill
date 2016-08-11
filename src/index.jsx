@@ -22,21 +22,19 @@ require('./sass/main.scss');
 /* font-awesome 图标 */
 require('font-awesome-webpack');
 
-const loggerMiddleware = createLogger();
-
 /* 创建store */
 let store = createStore(
 	rootReducer,
 	applyMiddleware(
 		thunkMiddleware,
-		loggerMiddleware
+		createLogger() /* 打印redux日志 */
 	)
 );
 
 render(
 	<Provider store={ store }>
 		<Router history={ hashHistory }>
-			<Route path='/' component={ App }>
+			<Route path='/' component={ App } aap={ 10 }>
 				<IndexRoute component={ HomePage }/>
 				<Route path='/detail' component={ DetailPage }>
 					<IndexRoute component={ OrderDetail }/>

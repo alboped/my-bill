@@ -2,7 +2,7 @@
  * 文字提示框
  */
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { classSet } from './common';
@@ -90,7 +90,7 @@ const getPosition = (props, thisNode) => {
 	return { box, arrow};
 };
 
-export default class Tooltip extends React.Component {
+export default class Tooltip extends Component {
 	constructor(props) {
 		super(props);
 		/* 创建提示框元素 */
@@ -133,13 +133,17 @@ export default class Tooltip extends React.Component {
 
 /* 提示框props 校验 */
 Tooltip.propTypes = {
-	content: React.PropTypes.string.isRequired
+	content: PropTypes.string.isRequired,
+	visible: PropTypes.bool,
+	bgColor: PropTypes.string,
+	className: PropTypes.string,
+	position: PropTypes.oneOf(position)
 }
 
 /*
  * 提示窗口
  */
-class TooltipDialog extends React.Component {
+class TooltipDialog extends Component {
 	componentDidUpdate() {
 		if(this.props.visible){
 			let thisNode = ReactDOM.findDOMNode(this);

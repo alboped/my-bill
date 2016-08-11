@@ -21,31 +21,15 @@ const userInfo = commonData.userInfo;
  * 首页头部
  */
 class TopPart extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			totalAmount: 0
-		}
-	}
-
 	componentDidMount() {
-		// home_api.getTotalAmount({
-		// 	success: (data) => {
-		// 		this.setState({
-		// 			totalAmount: data
-		// 		});
-		// 	},
-		// 	error: () => {
-		// 		console.log("获取最近订单失败！");
-		// 	}
-		// });
+		/* 初始化总金额 */
 		this.props.getTotalAmount();
 	}
 
 	render() {
 		return (
 			<div className="index-top">
-				<p className="total-val">￥{ this.state.totalAmount }</p>
+				<p className="total-val">￥{ this.props.totalAmount }</p>
 				<p className="total-title">未结算金额</p>
 				<Link className="chargeUp-btn" to="/detail">记 账</Link>
 			</div>
@@ -57,33 +41,16 @@ class TopPart extends Component {
  * 首页最近账单列表
  */
 class LatelyDetail extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			latelyList: []
-		}
-	}
-
 	componentDidMount() {
-		// 初始化最近账单
-		// home_api.getLatelyList({
-		// 	success: (data) => {
-		// 		this.setState({
-		// 			latelyList: data
-		// 		});
-		// 	},
-		// 	error: () => {
-		// 		console.log("获取最近订单失败！");
-		// 	}
-		// });
+		/* 初始化最近订单列表 */
 		this.props.getLatelyList();
 	}
 
-	// 拼接账单列表
-	pushLateList() {
+	render() {
+		// 拼接账单列表
 		let lateList = [];
 		let keyId = 0;
-		this.state.latelyList.map(val => {
+		this.props.latelyList && this.props.latelyList.map(val => {
 			let user = userInfo[val.userId];
 			lateList.push(
 				<li key={ 'latelyLi_' + keyId++ } className="lately-item">
@@ -97,13 +64,9 @@ class LatelyDetail extends Component {
 				</li>
 			);
 		});
-		return lateList;
-	}
-
-	render() {
 		return (
 			<ul className="index-lately-list container clearfix">
-				{ this.pushLateList() }
+				{ lateList }
 			</ul>
 		);
 	}
@@ -116,12 +79,18 @@ export default class HomePage extends Component {
 	render() {
 		return (
 			<div>
-				<TopPart getTotalAmount={ this.props.getTotalAmount } />
+				<TopPart 
+					getTotalAmount={ this.props.getTotalAmount }  
+					totalAmount={ this.props.totalAmount }
+				/>
 				<p className="list-title container">
 					<span>最近账单</span>
 					<Link className="list-more" to="/detail">更多账单 >></Link>
 				</p>
-				<LatelyDetail getLatelyList={ this.props.getLatelyList }/>
+				<LatelyDetail 
+					getLatelyList={ this.props.getLatelyList } 
+					latelyList={ this.props.latelyList }
+				/>
 				<div className="home-copyright">
 					<p>本站仅供天居园3201内部使用</p>
 					<p>禁止他人使用</p>
@@ -131,7 +100,12 @@ export default class HomePage extends Component {
 	}
 }
 
-// HomePage.propTypes = {
-// 	getTotalAmount: PropTypes.func.isRequired,
-// 	getLatelyList: PropTypes.func.isRequired
-// }
+/* 首页props校验 */
+HomePage.propTypes = {
+	getTotalAmount: PropTypes.func,
+	getLatelyList: PropTypes.func,
+	totalAmount: PropTypes.number,
+	latelyList: PropTypes.arrayOf(
+		PropTypes.object
+	)
+}

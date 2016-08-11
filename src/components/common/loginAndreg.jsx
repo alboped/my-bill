@@ -64,7 +64,12 @@ export default class LoginAndReg extends Component {
 							</a>
 						</li>
 					</ul>
-					{ this.state.isLogin ? <LoginForm/> : <RegForm/> }
+					{ this.state.isLogin ? 
+						<LoginForm 
+							userLogin={ this.props.userLogin 
+						} /> : 
+						<RegForm /> 
+					}
 				</div>
 			</div>
 		);
@@ -103,31 +108,31 @@ class LoginForm extends Component {
 		let password = this.refs.password;
 
 		/* 禁用登录按钮 */
-		this.updateState({
-			loginBtnDisabled: true
-		});
+		// this.updateState({
+		// 	loginBtnDisabled: true
+		// });
 
 		if(email.value == ''){
 			let _email = ReactDOM.findDOMNode(email);
 			$(_email).addClass('ma-error').focus();
 			this.updateState({
 				email_tooltip_content: '请输入邮箱！',
-				email_tooltip_toggle: true
+				email_tooltip_toggle: true,
+				loginBtnDisabled: false
 			});
+			return false;
 		} else if(password.value == ''){
 			let _pwd = ReactDOM.findDOMNode(password);
 			$(_pwd).addClass('ma-error').focus();
 			this.updateState({
 				pwd_tooltip_content: '请输入密码！',
-				pwd_tooltip_toggle: true
+				pwd_tooltip_toggle: true,
+				loginBtnDisabled: false
 			});
+			return false;
 		}
 
-		/* 启用登录按钮 */
-		this.updateState({
-			loginBtnDisabled: false
-		});
-		return false;
+		this.props.userLogin(email.value, password.value);
 	}
 
 	/* 隐藏错误提示 */
@@ -168,7 +173,7 @@ class LoginForm extends Component {
 					position="bottom-right" 
 					className="err-tooltip" 
 					bgColor="#eb3232">
-					<input type="text" 
+					<input type="password" 
 						ref="password" 
 						onClick={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
 						onChange={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 

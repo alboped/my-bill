@@ -41,7 +41,14 @@ export default class TopBar extends Component {
 							<Link className="bar-btn" activeClassName="active" to="/clearing">结账</Link>
 						</li>
 					</ul>
-					{ this.state.isLogin ? <UserBar /> : <LoginBar /> }
+					{ this.state.isLogin ? 
+						<UserBar 
+							userData={ this.props.userData }
+						/> : 
+						<LoginBar 
+							userLogin={ this.props.userLogin } 
+						/> 
+					}
 				</div>
 			</div>
 		);
@@ -92,6 +99,7 @@ class LoginBar extends Component {
 					showLogin={ this.state.showLogin } 
 					isLogin={ this.state.isLogin } 
 					onClose={ this.hideLoginModal.bind(this) } 
+					userLogin={ this.props.userLogin }
 				/>
 			</div>
 		);

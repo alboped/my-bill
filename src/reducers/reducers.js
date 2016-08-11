@@ -1,20 +1,13 @@
 import { combineReducers } from 'redux';
-import * as Actions from '../actions/actions';
 import * as ActionTypes from '../actions/actionTypes';
-// const { LOGIN_STATE } from Action.LoginState;
 
-// let loginState = (state = LOGIN_STATE, action) => {
-// 	switch(action.type) {
-		
-// 	}
-// }
+/* 相关reducers */
+import { userData } from './loginReducers';
 
 const totalAmount = (state = 0, action) => {
 	switch (action.type){
-		case ActionTypes.GET_TOTAL_AMOUNT:
-			return Object.assign({}, satte, {
-				totalAmount: Actions.totelAmount	
-			});
+		case ActionTypes.GET_TOTAL_AMOUNT_SUCCESS:
+			return action.totelAmount;
 		default:
 			return state;
 	}
@@ -22,10 +15,8 @@ const totalAmount = (state = 0, action) => {
 
 const latelyList = (state = [], action) => {
 	switch (action.type){
-		case ActionTypes.GET_LATELY_LIST:
-			return Object.assign({}, satte, {
-				latelyList: Actions.latelyList
-			});
+		case ActionTypes.GET_LATELY_LIST_SUCCESS:
+			return action.latelyList;
 		default:
 			return state;
 	}
@@ -33,7 +24,8 @@ const latelyList = (state = [], action) => {
 
 const rootReducer = combineReducers({
 	totalAmount,
-	latelyList
+	latelyList,
+	userData
 });
 
 export default rootReducer;

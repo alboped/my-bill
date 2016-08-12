@@ -9,6 +9,9 @@ import { classSet } from '../../plug/common';
 import * as Mixin from '../../plug/reactMixin';
 import $ from 'jquery';
 
+/* 第三方组件 */
+import { Form, Input, Button } from 'antd';
+
 // 业务组件
 // import * as home_api from '../api/home'; // 首页接口
 
@@ -66,8 +69,8 @@ export default class LoginAndReg extends Component {
 					</ul>
 					{ this.state.isLogin ? 
 						<LoginForm 
-							userLogin={ this.props.userLogin 
-						} /> : 
+							userLogin={ this.props.userLogin } 
+						/> : 
 						<RegForm /> 
 					}
 				</div>
@@ -103,36 +106,44 @@ class LoginForm extends Component {
 	}
 
 	/* 登录 */
-	userLogin() {
-		let email = this.refs.email;
-		let password = this.refs.password;
+	userLogin(e) {
+
+		e.preventDefault();
+
+		// let email = this.refs.email;
+		// let password = this.refs.password;
 
 		/* 禁用登录按钮 */
 		// this.updateState({
 		// 	loginBtnDisabled: true
 		// });
 
-		if(email.value == ''){
-			let _email = ReactDOM.findDOMNode(email);
-			$(_email).addClass('ma-error').focus();
-			this.updateState({
-				email_tooltip_content: '请输入邮箱！',
-				email_tooltip_toggle: true,
-				loginBtnDisabled: false
-			});
-			return false;
-		} else if(password.value == ''){
-			let _pwd = ReactDOM.findDOMNode(password);
-			$(_pwd).addClass('ma-error').focus();
-			this.updateState({
-				pwd_tooltip_content: '请输入密码！',
-				pwd_tooltip_toggle: true,
-				loginBtnDisabled: false
-			});
-			return false;
-		}
+		// if(email.value == ''){
+		// 	let _email = ReactDOM.findDOMNode(email);
+		// 	$(_email).addClass('ma-error').focus();
+		// 	this.updateState({
+		// 		email_tooltip_content: '请输入邮箱！',
+		// 		email_tooltip_toggle: true,
+		// 		loginBtnDisabled: false
+		// 	});
+		// 	return false;
+		// } else if(password.value == ''){
+		// 	let _pwd = ReactDOM.findDOMNode(password);
+		// 	$(_pwd).addClass('ma-error').focus();
+		// 	this.updateState({
+		// 		pwd_tooltip_content: '请输入密码！',
+		// 		pwd_tooltip_toggle: true,
+		// 		loginBtnDisabled: false
+		// 	});
+		// 	return false;
+		// }
 
-		this.props.userLogin(email.value, password.value);
+		this.props.form.validateFields((errors, values) => {
+			console.log(errors);
+			console.log(values);
+		});
+
+		// this.props.userLogin(email.value, password.value);
 	}
 
 	/* 隐藏错误提示 */
@@ -153,34 +164,78 @@ class LoginForm extends Component {
 			'fa-square-o': !this.state.autoLogin
 		});
 
+		const { 
+			getFieldProps, 
+			getFieldError, 
+			isFieldValidating 
+		} = this.props.form;
+
+		const emailProps = getFieldProps('email', {
+			validate: [{
+				rules: [
+					{
+						required: true,
+						message: '请输入邮箱'
+					}
+				],
+				trigger: 'onBlur'
+			}, {
+				rules: [
+					{
+						type: 'email',
+						message: '请输入正确的邮箱'
+					}
+				],
+				trigger: ['onBlur', 'onChange']
+			}]
+		});
+
+		const passwordProps = getFieldProps('password', {
+			rules: [{
+				required: true,
+				message: '密码捏'
+			}]
+		});
+
 		return (
-			<form className="login-box" onSubmit={ this.userLogin.bind(this) }>
-				<Tooltip content={ this.state.email_tooltip_content } 
-					visible={ this.state.email_tooltip_toggle } 
-					position="bottom-right" 
-					className="err-tooltip" 
-					bgColor="#eb3232">
-					<input type="text" 
-						ref="email" 
-						className="ma-input form-item input-item" 
-						onClick={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
-						onChange={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
-						placeholder="请输入帐号！"
-					/>
-				</Tooltip>
-				<Tooltip content={ this.state.pwd_tooltip_content } 
-					visible={ this.state.pwd_tooltip_toggle } 
-					position="bottom-right" 
-					className="err-tooltip" 
-					bgColor="#eb3232">
-					<input type="password" 
-						ref="password" 
-						onClick={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
-						onChange={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
-						className="ma-input form-item input-item" 
-						placeholder="请输入密码！"
-					/>
-				</Tooltip>
+			<Form className="login-box" 
+				onSubmit={ this.userLogin.bind(this, event) } 
+			>
+				<Form.Item
+
+				>
+					<Tooltip content={ this.state.email_tooltip_content } 
+						visible={ this.state.email_tooltip_toggle } 
+						position="bottom-right" 
+						className="err-tooltip" 
+						bgColor="#eb3232">
+						<Input type="text" 
+							ref="email" 
+							{ ...emailProps } 
+							type="email" 
+							className="ma-input form-item input-item login-input" 
+							onClick={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
+							onChange={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
+							placeholder="请输入帐号！" 
+						/>
+					</Tooltip>
+				</Form.Item>
+				<Form.Item>
+					<Tooltip content={ this.state.pwd_tooltip_content } 
+						visible={ this.state.pwd_tooltip_toggle } 
+						position="bottom-right" 
+						className="err-tooltip" 
+						bgColor="#eb3232">
+						<Input type="password" 
+							ref="password" 
+							{ ...passwordProps } 
+							onClick={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
+							onChange={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
+							className="ma-input form-item input-item login-input" 
+							placeholder="请输入密码！"
+						/>
+					</Tooltip>
+				</Form.Item>
 				<button type="submit" 
 					className="ma-button ma-success form-item login-btn" 
 					disabled={ this.state.loginBtnDisabled }>
@@ -196,10 +251,12 @@ class LoginForm extends Component {
 					<a href="javascript:;" className="right find-pwd link-underline">忘记密码？</a>
 				</div>
 				<OtherLogin/>
-			</form>
+			</Form>
 		);
 	}
 }
+
+LoginForm = Form.create()(LoginForm);
 
 /**
  * 注册窗口
@@ -257,8 +314,8 @@ class RegForm extends Component {
 	render() {
 		return (
 			<form className="reg-box" onSubmit={ this.userReg.bind(this) }>
-				<input type="text" ref="email" className="ma-input form-item input-item" placeholder="请输入帐号！"/>
-				<input type="text" ref="pwd" className="ma-input form-item input-item" placeholder="请输入密码！"/>
+				<input type="text" ref="email" className="ma-input form-item input-item login-input" placeholder="请输入帐号！"/>
+				<input type="text" ref="pwd" className="ma-input form-item input-item login-input" placeholder="请输入密码！"/>
 				<button type="submit" 
 					className="ma-button ma-success form-item login-btn" 
 					disabled={ this.state.regBtnDisabled }>

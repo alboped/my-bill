@@ -3,7 +3,6 @@
  */
 
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import Tooltip from '../../plug/tooltip';
 import { classSet } from '../../plug/common';
 import * as Mixin from '../../plug/reactMixin';
@@ -87,11 +86,7 @@ class LoginForm extends Component {
 		super(props);
 		this.state = {
 			autoLogin: true,   // 选中自动登录
-			loginBtnDisabled: false,   // 禁用登录按钮
-			email_tooltip_content: '',   // email 提示信息
-			email_tooltip_toggle: false,   // email 提示信息显示状态
-			pwd_tooltip_content: '',   // 密码提示信息
-			pwd_tooltip_toggle: false   // 密码提示信息显示状态
+			loginBtnDisabled: false   // 禁用登录按钮
 		};
 		this.updateState = Mixin.updateState.bind(this);
 	}
@@ -107,54 +102,20 @@ class LoginForm extends Component {
 
 	/* 登录 */
 	userLogin(e) {
-
 		e.preventDefault();
 
-		// let email = this.refs.email;
-		// let password = this.refs.password;
+		let form = this.props.form;
 
-		/* 禁用登录按钮 */
-		// this.updateState({
-		// 	loginBtnDisabled: true
-		// });
+		form.validateFields((errors, values) => {
+			// !errors && this.props.userLogin(values.email, values.password);
 
-		// if(email.value == ''){
-		// 	let _email = ReactDOM.findDOMNode(email);
-		// 	$(_email).addClass('ma-error').focus();
-		// 	this.updateState({
-		// 		email_tooltip_content: '请输入邮箱！',
-		// 		email_tooltip_toggle: true,
-		// 		loginBtnDisabled: false
-		// 	});
-		// 	return false;
-		// } else if(password.value == ''){
-		// 	let _pwd = ReactDOM.findDOMNode(password);
-		// 	$(_pwd).addClass('ma-error').focus();
-		// 	this.updateState({
-		// 		pwd_tooltip_content: '请输入密码！',
-		// 		pwd_tooltip_toggle: true,
-		// 		loginBtnDisabled: false
-		// 	});
-		// 	return false;
-		// }
-
-		this.props.form.validateFields((errors, values) => {
-			console.log(errors);
-			console.log(values);
+			form.setFields({
+				email: {
+					value: values.email,
+					errors: [new Error('email错误！')]
+				}
+			});
 		});
-
-		// this.props.userLogin(email.value, password.value);
-	}
-
-	/* 隐藏错误提示 */
-	hideTooltip(event, toggle_state) {
-		/* 取消错误样式 */
-		$(event.target).removeClass('ma-error');
-
-		/* 隐藏错误弹窗 */
-		let state = {};
-		state[toggle_state] = false;
-		this.updateState(state);
 	}
 
 	render() {
@@ -170,12 +131,13 @@ class LoginForm extends Component {
 			isFieldValidating 
 		} = this.props.form;
 
+		/* email 校验规则 */
 		const emailProps = getFieldProps('email', {
 			validate: [{
 				rules: [
 					{
 						required: true,
-						message: '请输入邮箱'
+						message: '邮箱捏？'
 					}
 				],
 				trigger: 'onBlur'
@@ -186,51 +148,58 @@ class LoginForm extends Component {
 						message: '请输入正确的邮箱'
 					}
 				],
-				trigger: ['onBlur', 'onChange']
+				trigger: ['onBlur']
 			}]
 		});
 
+		/* password 校验规则 */
 		const passwordProps = getFieldProps('password', {
 			rules: [{
 				required: true,
-				message: '密码捏'
+				message: '密码捏？'
 			}]
 		});
+
+		let validating = isFieldValidating('email');
+
+		let e_errMsg = (getFieldError('email') || []).join(', ');
+		let p_errMsg = (getFieldError('password') || []).join(', ');
 
 		return (
 			<Form className="login-box" 
 				onSubmit={ this.userLogin.bind(this, event) } 
 			>
-				<Form.Item
-
-				>
-					<Tooltip content={ this.state.email_tooltip_content } 
-						visible={ this.state.email_tooltip_toggle } 
+				<Form.Item>
+					<Tooltip content={ 
+							!validating && e_errMsg 
+						} 
+						visible={ 
+							!!e_errMsg 
+						} 
 						position="bottom-right" 
 						className="err-tooltip" 
 						bgColor="#eb3232">
 						<Input type="text" 
-							ref="email" 
 							{ ...emailProps } 
 							type="email" 
 							className="ma-input form-item input-item login-input" 
-							onClick={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
-							onChange={ this.hideTooltip.bind(this, event, 'email_tooltip_toggle') } 
 							placeholder="请输入帐号！" 
 						/>
 					</Tooltip>
 				</Form.Item>
 				<Form.Item>
-					<Tooltip content={ this.state.pwd_tooltip_content } 
-						visible={ this.state.pwd_tooltip_toggle } 
+					<Tooltip content={ 
+							validating || p_errMsg 
+						} 
+						visible={
+							!!p_errMsg 
+						} 
 						position="bottom-right" 
 						className="err-tooltip" 
 						bgColor="#eb3232">
 						<Input type="password" 
-							ref="password" 
 							{ ...passwordProps } 
-							onClick={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
-							onChange={ this.hideTooltip.bind(this, event, 'pwd_tooltip_toggle') } 
+							autoComplete="off" 
 							className="ma-input form-item input-item login-input" 
 							placeholder="请输入密码！"
 						/>

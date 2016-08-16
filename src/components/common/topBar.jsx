@@ -8,13 +8,6 @@ import LoginAndReg from './loginAndreg';
 import UserHandle from './userHandle';
 
 export default class TopBar extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isLogin: false
-		}
-	}
-
 	/*
 	 * 登录
 	 */
@@ -41,12 +34,11 @@ export default class TopBar extends Component {
 							<Link className="bar-btn" activeClassName="active" to="/clearing">结账</Link>
 						</li>
 					</ul>
-					{ this.state.isLogin ? 
-						<UserBar 
-							userData={ this.props.userData }
-						/> : 
+					{ this.props.loginState ? 
+						<UserBar /> : 
 						<LoginBar 
 							userLogin={ this.props.userLogin } 
+							userReg={ this.props.userReg }
 						/> 
 					}
 				</div>
@@ -63,7 +55,7 @@ class LoginBar extends Component {
 		super(props);
 		this.state = {
 			showLogin: true,
-			isLogin: true
+			isLogin: false
 		}
 	}
 
@@ -99,7 +91,8 @@ class LoginBar extends Component {
 					showLogin={ this.state.showLogin } 
 					isLogin={ this.state.isLogin } 
 					onClose={ this.hideLoginModal.bind(this) } 
-					userLogin={ this.props.userLogin }
+					userLogin={ this.props.userLogin } 
+					userReg={ this.props.userReg } 
 				/>
 			</div>
 		);

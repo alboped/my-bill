@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import * as ActionTypes from '../actions/actionTypes';
 
 /* 相关reducers */
-import { userData } from './loginReducers';
+import { loginState } from './loginReducers';
 
 const totalAmount = (state = 0, action) => {
 	switch (action.type){
@@ -25,7 +25,7 @@ const latelyList = (state = [], action) => {
 const rootReducer = combineReducers({
 	totalAmount,
 	latelyList,
-	userData
+	loginState
 });
 
 export default rootReducer;

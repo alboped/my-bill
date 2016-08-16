@@ -5,13 +5,13 @@
 import * as ActionTypes from '../actions/actionTypes';
 
 /* 用户数据 */
-const userData = (state = {}, action) => {
+const loginState = (state = false, action) => {
 	switch (action.type){
 		case ActionTypes.POST_LOGIN_SUCCESS:
-			return action.userData;
+			return action.loginState;
 		default:
 			return state;
 	}
 }
 
-export { userData };
+export { loginState };

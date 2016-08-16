@@ -19,40 +19,25 @@ const getStateMsg = code => {
  *
  */
 /* 用户登录 */
-const userLogin = (email, password) => {
+const userLogin = (email, password, callback) => {
 	return dispatch => {
 		return ref.authWithPassword({
 			email,
 			password
 		}, (err, data) => {
-			err ? 
-			dispatch(loginError(err)) : 
-			dispatch(loginSuccess(data));
+			callback(err);
+			console.log(err);
+			console.log(data);
+			dispatch(loginSuccess(!!!err));
 		});
 	}
 }
 
-/* 登录成功 */
-const loginSuccess = userData => ({
+/* 登录完成 */
+const loginSuccess = loginState => ({
 	type: actionTypes.POST_LOGIN_SUCCESS,
-	userData
+	loginState
 });
-
-/* 登录失败 */
-const loginError = loginError => {
-	let code = loginError.code;
-
-	/* 判断是否为email验证失败 */
-	let errType = code.indexOf('email') > 0;
-
-	return {
-		type: actionTypes.POST_LOGIN_FAILURE,
-		emailErrMsg: errType && getStateMsg(code),
-		pwdErrMsg: errType || getStateMsg(code),
-		showUnameErr: errType,
-		showPwdErr: !errType
-	}
-};
 
 /*
  *
@@ -60,12 +45,14 @@ const loginError = loginError => {
  *
  */
 /* 创建用户 */
-const userReg = (email, password) => {
+const userReg = (email, password, callback) => {
 	return dispatch => {
 		return ref.createUser({
 			email,
 			password
 		}, (err, data) => {
+			callback(err);
+
 			err ? 
 			dispatch(regError(err)) : 
 			dispatch(regSuccess(data))

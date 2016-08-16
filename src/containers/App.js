@@ -27,12 +27,17 @@ class App extends Component {
 		return (
 			<div>
 				<TopBar 
-					userData={ this.props.userData } 
-					userLogin={ (userName, password) => 
+					loginState={ this.props.loginState } 
+					userLogin={ (email, password, callback) => 
 						this.props.dispatch(
-							loginActions.userLogin(userName, password)
+							loginActions.userLogin(email, password, callback)
 						)
 					} 
+					userReg={ (email, password, callback) =>
+						this.props.dispatch(
+							loginActions.userReg(email, password, callback)
+						)
+					}
 				/>
 				{ children }
 			</div>
@@ -41,11 +46,11 @@ class App extends Component {
 }
 
 const updateProps = (state) => {
-	let { totalAmount, latelyList, userData } = state;
+	let { totalAmount, latelyList, loginState } = state;
 	return {
 		totalAmount,
 		latelyList,
-		userData
+		loginState
 	}
 };
 

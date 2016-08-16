@@ -31,7 +31,7 @@ const receiveAmount = totelAmount => ({
  */
 const get_lately_list = () => {
 	return dispatch => {
-		return ref.child('bill').on('value', (data, err) => {
+		return ref.child('bill').limitToLast(4).on('value', (data, err) => {
 			if(err == null){
 				dispatch(receiveLatelyList(data.val()));
 			} else {

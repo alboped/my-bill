@@ -1,8 +1,8 @@
 /**
  * 登录相关action
  */
-import * as actionTypes from './actionTypes'; /* actionType */
-import ref from '../wilddog_ref';
+import * as At from './actionTypes'; /* actionType */
+import ref, { appId } from '../wilddog_ref';
 
 /* 根据错误码获取错误信息 */
 const getStateMsg = code => {
@@ -12,6 +12,15 @@ const getStateMsg = code => {
 		'email_taken': '该邮箱已被注册！'
 	}[code];
 }
+
+/**
+ * 打开、关闭登录窗口
+ */
+const toggleLogin = (showLogin, isLogin) => ({
+	type: At.SHOW_LOGIN_TOGGLE,
+	showLogin,
+	isLogin
+});
 
 /*
  *
@@ -26,18 +35,39 @@ const userLogin = (email, password, callback) => {
 			password
 		}, (err, data) => {
 			callback(err);
-			console.log(err);
-			console.log(data);
-			dispatch(loginSuccess(!!!err));
+			!err && dispatch(loginSuccess(true));
 		});
 	}
 }
 
 /* 登录完成 */
 const loginSuccess = loginState => ({
-	type: actionTypes.POST_LOGIN_SUCCESS,
+	type: At.POST_LOGIN_SUCCESS,
 	loginState
 });
+
+/**
+ * 获取token自动登录
+ */
+const authLogin = () => {
+	return dispatch => {
+		const sessionString = window.localStorage['wilddog:session::' + appId];
+		if(sessionString){
+			const sessionObject = JSON.parse(sessionString);
+			return ref.authWithCustomToken(sessionObject.token, (err, data) => {
+				!err && dispatch(loginSuccess(true));
+			});
+		}
+	}
+}
+
+/**
+ * 注销登录
+ */
+const unauth = () => {
+	ref.unauth();
+	window.location.reload();
+}
 
 /*
  *
@@ -53,24 +83,27 @@ const userReg = (email, password, callback) => {
 		}, (err, data) => {
 			callback(err);
 
-			err ? 
-			dispatch(regError(err)) : 
-			dispatch(regSuccess(data))
+			err 
+			? dispatch(regError(err)) 
+			: dispatch(regSuccess(data))
 		});
 	}
 }
 
 /* 注册成功 */
 const regSuccess = data => ({
-	type: actionTypes.POST_REG_SUCCESS
+	type: At.POST_REG_SUCCESS
 });
 
 /* 注册失败 */
 const regError = err => ({
-	type: actionTypes.POST_REG_FAILURE
+	type: At.POST_REG_FAILURE
 });
 
 export { 
 	userLogin, 
-	userReg 
+	userReg,
+	authLogin,
+	toggleLogin,
+	unauth
 };

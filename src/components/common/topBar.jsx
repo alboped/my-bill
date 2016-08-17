@@ -8,14 +8,8 @@ import LoginAndReg from './loginAndreg';
 import UserHandle from './userHandle';
 
 export default class TopBar extends Component {
-	/*
-	 * 登录
-	 */
-	login() {
-		this.setState({
-			showLogin: false,
-			isLogin: true
-		});
+	componentDidMount() {
+		this.props.authLogin();
 	}
 
 	render() {
@@ -35,10 +29,14 @@ export default class TopBar extends Component {
 						</li>
 					</ul>
 					{ this.props.loginState ? 
-						<UserBar /> : 
+						<UserBar 
+							unauth={ this.props.unauth }
+						/> : 
 						<LoginBar 
+							showLogin={ this.props.showLogin } 
 							userLogin={ this.props.userLogin } 
-							userReg={ this.props.userReg }
+							userReg={ this.props.userReg } 
+							toggleLogin={ this.props.toggleLogin }
 						/> 
 					}
 				</div>
@@ -51,46 +49,18 @@ export default class TopBar extends Component {
  * 登录、注册操作栏
  */
 class LoginBar extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			showLogin: true,
-			isLogin: false
-		}
-	}
-
-	/*
-	 * 显示登录窗口
-	 */
-	showLoginModal(type) {
-		this.setState({
-			showLogin: true,
-			isLogin: type
-		});
-	}
-
-	/*
-	 * 关闭登录窗口
-	 */
-	hideLoginModal() {
-		this.setState({
-			showLogin: false,
-			isLogin: true
-		});
-	}
-
 	render() {
 		return (
 			<div>
 				<div className="account-handle">
-					<a href="javascript:;" onClick={ this.showLoginModal.bind(this, true) }>登录</a>
+					<a href="javascript:;" onClick={ this.props.toggleLogin.bind(this, true, true) }>登录</a>
 					<span>|</span>
-					<a href="javascript:;" onClick={ this.showLoginModal.bind(this, false) }>注册</a>
+					<a href="javascript:;" onClick={ this.props.toggleLogin.bind(this, true, false) }>注册</a>
 				</div>
 				<LoginAndReg 
-					showLogin={ this.state.showLogin } 
-					isLogin={ this.state.isLogin } 
-					onClose={ this.hideLoginModal.bind(this) } 
+					showLogin={ this.props.showLogin } 
+					isLogin={ this.props.isLogin } 
+					onClose={ this.props.toggleLogin.bind(this, false, true) } 
 					userLogin={ this.props.userLogin } 
 					userReg={ this.props.userReg } 
 				/>
@@ -115,8 +85,14 @@ class UserBar extends Component {
 		return (
 			<div className="user-bar">
 				<img className="photo" src={ this.state.photo } alt=""/>
-				<span className="user-email">shi_zhaojun@aliyun.com <i className="fa fa-angle-down user-down"></i></span>
-				{ this.state.showHandle ? <UserHandle /> : null }
+				<span className="user-email">shi_zhaojun@aliyun.com 
+					<i className="fa fa-angle-down user-down"></i>
+				</span>
+				{ 
+					this.state.showHandle 
+						? <UserHandle unauth={ this.props.unauth }/> 
+						: null 
+				}
 			</div>
 		);
 	}

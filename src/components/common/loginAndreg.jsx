@@ -23,7 +23,6 @@ const getStateMsg = code => {
 export default class LoginAndReg extends Component {
 	constructor(props){
 		super(props);
-		console.log(props);
 		this.state = {
 			isLogin: true
 		}

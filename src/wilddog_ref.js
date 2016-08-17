@@ -4,6 +4,9 @@
 
 // import Wilddog from 'wilddog';
 
-const ref = new Wilddog('https://1257.wilddogio.com/');
+const appId = 1257;
 
+const ref = new Wilddog('https://' + appId + '.wilddogio.com/');
+
+export { appId };
 export default ref;

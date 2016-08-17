@@ -17,7 +17,7 @@ export default class UserHandle extends Component {
 						</a>
 					</li>
 					<li>
-						<a href="javascript:;" className="handle-item">
+						<a href="javascript:;" className="handle-item" onClick={ this.props.unauth }>
 							<i className="fa fa-sign-out handle-icon"></i>
 							<span className="handle-name">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</span>
 						</a>

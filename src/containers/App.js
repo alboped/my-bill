@@ -27,6 +27,12 @@ class App extends Component {
 		return (
 			<div>
 				<TopBar 
+					showLogin={ this.props.showLogin } 
+					toggleLogin={ (isShow, isLogin) => 
+						this.props.dispatch(
+							loginActions.toggleLogin(isShow, isLogin)
+						)
+					} 
 					loginState={ this.props.loginState } 
 					userLogin={ (email, password, callback) => 
 						this.props.dispatch(
@@ -36,6 +42,16 @@ class App extends Component {
 					userReg={ (email, password, callback) =>
 						this.props.dispatch(
 							loginActions.userReg(email, password, callback)
+						)
+					} 
+					authLogin={ () => 
+						this.props.dispatch(
+							loginActions.authLogin()
+						)
+					} 
+					unauth={ () => 
+						this.props.dispatch(
+							loginActions.unauth()
 						)
 					}
 				/>

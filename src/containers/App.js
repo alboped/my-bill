@@ -62,11 +62,12 @@ class App extends Component {
 }
 
 const updateProps = (state) => {
-	let { totalAmount, latelyList, loginState } = state;
+	let { totalAmount, latelyList, loginState, showLogin } = state;
 	return {
 		totalAmount,
 		latelyList,
-		loginState
+		loginState,
+		showLogin
 	}
 };
 

@@ -21,58 +21,44 @@ const getStateMsg = code => {
 }
 
 export default class LoginAndReg extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			isLogin: true
-		}
-	}
-
 	componentWillReceiveProps(nextProps) {
-		this.setState({
-			isLogin: nextProps.isLogin
-		});
-	}
-
-	/* 根据showLogin显示登录窗口 */
-	isDiaplay() {
-		return {
-			'display': this.props.showLogin ? 'block' : 'none'
-		}
-	}
-
-	/* 切换登录、注册窗口 */
-	tabToggle(type) {
-		this.setState({
-			isLogin: type
-		});
+		console.log(123412342342342);
+		// this.setState({
+		// 	isLogin: nextProps.isLogin
+		// });
 	}
 
 	render() {
+		console.log(123423);
+		console.log(this.props.showLogin);
 		return (
-			<div className="login-model" style={ this.isDiaplay() }>
+			<div className="login-model" 
+				style={{
+					display: (this.props.showLogin ? 'block' : 'none')
+				}}
+			>
 				<div className="login-bg"></div>
 				<div className="login-dialog">
 					<a href="javascript:;" 
 						className="close-btn" 
-						onClick={ this.props.onClose }>×</a>
+						onClick={ this.props.toggleLogin.bind(this, false, true) }>×</a>
 					<ul className="title-tabs">
 						<li>
 							<a href="javascript:;" 
-								onClick={ this.tabToggle.bind(this, true) }
-								className={ this.state.isLogin ? "active" : "" }>
+								onClick={ this.props.toggleLogin.bind(this, true, true) }
+								className={ this.props.isLogin ? "active" : "" }>
 								登录
 							</a>
 						</li>
 						<li>
 							<a href="javascript:;" 
-								onClick={ this.tabToggle.bind(this, false) } 
-								className={ this.state.isLogin ? "" : "active" }>
+								onClick={ this.props.toggleLogin.bind(this, true, false) } 
+								className={ this.props.isLogin ? "" : "active" }>
 								注册
 							</a>
 						</li>
 					</ul>
-					{ this.state.isLogin ? 
+					{ this.props.isLogin ? 
 						<LoginForm 
 							userLogin={ this.props.userLogin } 
 						/> : 

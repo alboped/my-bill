@@ -60,7 +60,7 @@ class LoginBar extends Component {
 				<LoginAndReg 
 					showLogin={ this.props.showLogin } 
 					isLogin={ this.props.isLogin } 
-					onClose={ this.props.toggleLogin.bind(this, false, true) } 
+					toggleLogin={ this.props.toggleLogin }
 					userLogin={ this.props.userLogin } 
 					userReg={ this.props.userReg } 
 				/>

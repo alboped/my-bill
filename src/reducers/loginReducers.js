@@ -16,9 +16,10 @@ const loginState = (state = false, action) => {
 
 /* 打开、关闭登录窗口 */
 const toggleLogin = (state = false, action) => {
+	console.log(12561242);
 	switch (action.type){
 		case At.SHOW_LOGIN_TOGGLE:
-			return action.toggleLogin;
+			return Object.assign({}, state, action.toggleLogin);
 		default:
 			return state;
 	}
